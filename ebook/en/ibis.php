@@ -31,4 +31,21 @@ return [
      */
     'sample_notice' => 'This is a sample from "Introduction to Docker" by Bobby Iliev. <br>
                         For more information, <a href="https://devdojo.com/">Click here</a>.',
+
+    /**
+     * Cover configuration.
+     */
+    'cover' => [
+        'image' => 'cover.jpg',
+    ],
+
+    /**
+     * CommonMark configuration.
+     */
+    'configure_commonmark' => false,
+
+    /**
+     * Table of contents levels.
+     */
+    'toc_levels' => [1, 2, 3, 4],
 ];
