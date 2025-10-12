@@ -50,11 +50,11 @@ fi
 # build the PDF  
 echo "📖 Building PDFs in directory: ${ibis_path}"
 cd ${ibis_path}
-php /tmp/vendor/bin/ibis-next pdf
-php /tmp/vendor/bin/ibis-next pdf dark
-php /tmp/vendor/bin/ibis-next sample
-php /tmp/vendor/bin/ibis-next sample dark
-php /tmp/vendor/bin/ibis-next epub
+ibis-next pdf
+ibis-next pdf dark
+ibis-next sample
+ibis-next sample dark
+ibis-next epub
 
 # commit the new files
 echo "Configuring Git and pushing changes..."
