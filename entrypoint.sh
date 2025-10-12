@@ -61,9 +61,20 @@ ibis-next sample dark
 # Return to the original directory for git operations
 cd "${GITHUB_WORKSPACE:-$(pwd)}"
 
+# Return to workspace root for git operations
+cd "${GITHUB_WORKSPACE:-$(pwd)}"
+
+# Check if we're in a git repository
+if [ ! -d ".git" ]; then
+    echo "ℹ️  Not in a git repository, skipping commit"
+    echo "✅ eBooks built successfully!"
+    exit 0
+fi
+
 # Check if there are changes to commit
-if git diff --quiet HEAD -- export/; then
+if git diff --quiet HEAD -- "${ibis_path}/export/" 2>/dev/null; then
     echo "ℹ️  No changes detected in export/ directory, skipping commit"
+    echo "✅ eBooks built successfully!"
     exit 0
 fi
 
@@ -72,7 +83,7 @@ echo "📝 Committing and pushing changes..."
 git config --global user.email "${email}"
 git config --global user.name "Ibis Build Action"
 
-git add export/
+git add "${ibis_path}/export/"
 git commit -m "${commit_message}"
 git push origin "${branch}"
 

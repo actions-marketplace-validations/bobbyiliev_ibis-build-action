@@ -36,13 +36,13 @@ runs:
       uses: actions/cache@v4
       with:
         path: ~/.composer
-        key: ${{ runner.os }}-composer-ibis-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-composer-ibis-v2.0
         restore-keys: |
           ${{ runner.os }}-composer-ibis-
     
     - name: Install Ibis Next
       shell: bash
-      run: composer global require hi-folks/ibis-next:^2.0 --no-dev --optimize-autoloader
+      run: composer global require hi-folks/ibis-next:^2.0 --optimize-autoloader
     
     - name: Build eBooks with Ibis Next
       shell: bash
