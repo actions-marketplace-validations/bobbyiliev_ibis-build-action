@@ -30,6 +30,17 @@ jobs:
           email: "your-email@example.com"   # Your commit email
           commit_message: "📚 Updated eBooks [skip ci]"
           php_version: "8.2"               # PHP version (8.2+ recommended)
+          formats: "pdf,pdf-dark,epub,sample,sample-dark"  # All formats
+          skip_push: "false"                # Enable git operations
+
+      # Example: Test job that doesn't push
+      - name: Test Build (No Push)
+        if: github.event_name == 'pull_request'
+        uses: bobbyiliev/ibis-build-action@main
+        with:
+          ibis_path: "./ebook/en"
+          skip_push: "true"                 # Skip git operations for PRs
+          formats: "pdf,sample"             # Only test basic formats
 
       - name: Upload artifacts (optional)
         uses: actions/upload-artifact@v4

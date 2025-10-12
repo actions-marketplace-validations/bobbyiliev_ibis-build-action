@@ -73,6 +73,44 @@ Make sure your repository has:
 | `skip_push` | Skip git operations (commit/push) | No | `"false"` |
 | `formats` | Formats to build (comma-separated) | No | `"pdf,pdf-dark,epub,sample,sample-dark"` |
 
+## 💡 Usage Examples
+
+### Basic Usage (All Formats)
+```yaml
+- uses: bobbyiliev/ibis-build-action@main
+  with:
+    ibis_path: "./ebook/en"
+    email: "your@email.com"
+```
+
+### PDF Only
+```yaml
+- uses: bobbyiliev/ibis-build-action@main
+  with:
+    ibis_path: "./ebook/en"
+    formats: "pdf,pdf-dark"
+    email: "your@email.com"
+```
+
+### Testing (No Git Operations)
+```yaml
+- uses: bobbyiliev/ibis-build-action@main
+  with:
+    ibis_path: "./ebook/en"
+    skip_push: "true"
+    formats: "pdf,sample"
+```
+
+### Custom Branch & Message
+```yaml
+- uses: bobbyiliev/ibis-build-action@main
+  with:
+    ibis_path: "./docs"
+    ibis_branch: "gh-pages" 
+    commit_message: "🤖 Auto-update documentation"
+    email: "bot@company.com"
+```
+
 ## 🔄 What It Does
 
 1. **Setup**: Installs PHP 8.2+ with required extensions (gd, zip, mbstring, intl)
