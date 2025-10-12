@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+vendor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Runtime
+.tmp/
+.cache/
+
+# Don't ignore example ebook files - they're for testing
+# ebook/en/export/

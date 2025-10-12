@@ -1,0 +1,41 @@
+# Example workflow using the Ibis Build Action
+# Copy this to .github/workflows/ibis.yml in your repository
+
+name: Build eBooks with Ibis Next
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build eBooks with Ibis Next
+        uses: bobbyiliev/ibis-build-action@main
+        with:
+          ibis_path: "./ebook/en"           # Adjust to your Ibis project path
+          ibis_branch: "main"               # Branch to commit to
+          email: "your-email@example.com"   # Your commit email
+          commit_message: "📚 Updated eBooks [skip ci]"
+          php_version: "8.2"               # PHP version (8.2+ recommended)
+
+      - name: Upload artifacts (optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ebooks-${{ github.sha }}
+          path: |
+            ebook/en/export/*.pdf
+            ebook/en/export/*.epub
+          retention-days: 30
