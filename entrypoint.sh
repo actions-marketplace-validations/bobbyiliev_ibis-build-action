@@ -54,6 +54,7 @@ php /tmp/vendor/bin/ibis-next pdf
 php /tmp/vendor/bin/ibis-next pdf dark
 php /tmp/vendor/bin/ibis-next sample
 php /tmp/vendor/bin/ibis-next sample dark
+php /tmp/vendor/bin/ibis-next epub
 
 # commit the new files
 echo "Configuring Git and pushing changes..."
