@@ -1,6 +1,27 @@
 name: "Ibis Next Builds"
 description: "Automatically build new eBook PDF files using Ibis Next"
 author: "Bobby Iliev"
+inputs:
+  ibis_path:
+    description: "Path to your Ibis ebook"
+    required: false
+    default: "./"
+  ibis_branch:
+    description: "Branch to push the changes to"
+    required: false
+    default: "main"
+  email:
+    description: "Email id used while committing to the repo"
+    required: false
+    default: "bobby@bobbyiliev.com"
+  commit_message:
+    description: "The commit message"
+    required: false
+    default: "Updated Ibis Next Exported Files"
+  set_safe_directory:
+    description: "Add repository directory as a safe directory"
+    required: false
+    default: "true"
 runs:
   using: "docker"
   image: "Dockerfile"
