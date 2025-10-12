@@ -50,6 +50,8 @@ jobs:
           email: "your@email.com"          # Git commit email
           commit_message: "📚 Updated eBooks"
           php_version: "8.2"              # PHP version (optional)
+          formats: "pdf,epub"              # Only build PDF and EPUB
+          skip_push: "false"               # Enable git operations
 ```
 
 ### 2. Repository Setup
@@ -68,6 +70,8 @@ Make sure your repository has:
 | `email` | Email for Git commits | No | `"bobby@bobbyiliev.com"` |
 | `commit_message` | Commit message for changes | No | `"Updated Ibis Next Exported Files"` |
 | `php_version` | PHP version to use | No | `"8.2"` |
+| `skip_push` | Skip git operations (commit/push) | No | `"false"` |
+| `formats` | Formats to build (comma-separated) | No | `"pdf,pdf-dark,epub,sample,sample-dark"` |
 
 ## 🔄 What It Does
 

@@ -7,10 +7,14 @@ ibis_path=${IBIS_PATH:-./}
 branch=${IBIS_BRANCH:-main}
 email=${EMAIL:-bobby@bobbyiliev.com}
 commit_message=${COMMIT_MESSAGE:-"Updated Ibis Next Exported Files"}
+skip_push=${SKIP_PUSH:-false}
+formats=${FORMATS:-"pdf,pdf-dark,epub,sample,sample-dark"}
 
 echo "🚀 Building eBooks with Ibis Next..."
 echo "📁 Working directory: $(pwd)"
 echo "📁 Target ibis path: ${ibis_path}"
+echo "📝 Formats to build: ${formats}"
+echo "🚀 Skip push: ${skip_push}"
 
 # Validate ibis.php exists before proceeding
 if [ ! -f "${ibis_path}/ibis.php" ]; then
@@ -38,31 +42,57 @@ fi
 
 echo "✅ ibis-next version: $(ibis-next --version)"
 
-# Build all formats
+# Build specified formats
 echo "📖 Building eBooks in directory: ${ibis_path}"
 cd "${ibis_path}"
 
 # Ensure export directory exists
 mkdir -p export
 
-echo "📄 Building PDF (light theme)..."
-ibis-next pdf
+# Convert comma-separated formats to array
+IFS=',' read -ra FORMAT_ARRAY <<< "${formats}"
 
-echo "🌙 Building PDF (dark theme)..."
-ibis-next pdf dark
-
-echo "📱 Building EPUB..."
-ibis-next epub
-
-echo "📑 Building samples..."
-ibis-next sample
-ibis-next sample dark
+for format in "${FORMAT_ARRAY[@]}"; do
+    format=$(echo "$format" | xargs) # trim whitespace
+    case "$format" in
+        "pdf")
+            echo "📄 Building PDF (light theme)..."
+            ibis-next pdf
+            ;;
+        "pdf-dark")
+            echo "🌙 Building PDF (dark theme)..."
+            ibis-next pdf dark
+            ;;
+        "epub")
+            echo "📱 Building EPUB..."
+            ibis-next epub
+            ;;
+        "sample")
+            echo "📑 Building sample (light theme)..."
+            ibis-next sample
+            ;;
+        "sample-dark")
+            echo "📑 Building sample (dark theme)..."
+            ibis-next sample dark
+            ;;
+        *)
+            echo "⚠️  Unknown format: $format"
+            ;;
+    esac
+done
 
 # Return to the original directory for git operations
 cd "${GITHUB_WORKSPACE:-$(pwd)}"
 
 # Return to workspace root for git operations
 cd "${GITHUB_WORKSPACE:-$(pwd)}"
+
+# Check if we should skip git operations
+if [ "${skip_push}" = "true" ]; then
+    echo "ℹ️  Skipping git operations (skip_push=true)"
+    echo "✅ eBooks built successfully!"
+    exit 0
+fi
 
 # Check if we're in a git repository
 if [ ! -d ".git" ]; then

@@ -25,3 +25,5 @@ jobs:
           ibis_path: "./ebook/en"
           commit_message: "🧪 Test build"
           email: "test@example.com"
+          skip_push: "true"
+          formats: "pdf,sample"  # Only test basic formats

@@ -22,6 +22,14 @@ inputs:
     description: "PHP version to use"
     required: false
     default: "8.2"
+  skip_push:
+    description: "Skip git operations (commit/push)"
+    required: false
+    default: "false"
+  formats:
+    description: "Comma-separated list of formats to build (pdf,pdf-dark,epub,sample,sample-dark)"
+    required: false
+    default: "pdf,pdf-dark,epub,sample,sample-dark"
 runs:
   using: "composite"
   steps:
@@ -51,6 +59,8 @@ runs:
         IBIS_BRANCH: ${{ inputs.ibis_branch }}
         EMAIL: ${{ inputs.email }}
         COMMIT_MESSAGE: ${{ inputs.commit_message }}
+        SKIP_PUSH: ${{ inputs.skip_push }}
+        FORMATS: ${{ inputs.formats }}
       run: ${{ github.action_path }}/entrypoint.sh
 outputs:
   build_status:
