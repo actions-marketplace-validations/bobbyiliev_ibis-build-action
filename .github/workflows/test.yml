@@ -26,4 +26,4 @@ jobs:
           commit_message: "🧪 Test build"
           email: "test@example.com"
           skip_push: "true"
-          formats: "pdf,sample"  # Only test basic formats
+          formats: "pdf,sample,epub"
