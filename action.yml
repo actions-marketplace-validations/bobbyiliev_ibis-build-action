@@ -18,16 +18,54 @@ inputs:
     description: "The commit message"
     required: false
     default: "Updated Ibis Next Exported Files"
-  set_safe_directory:
-    description: "Add repository directory as a safe directory"
+  php_version:
+    description: "PHP version to use"
     required: false
-    default: "true"
+    default: "8.2"
+  skip_push:
+    description: "Skip git operations (commit/push)"
+    required: false
+    default: "false"
+  formats:
+    description: "Comma-separated list of formats to build (pdf,pdf-dark,epub,sample,sample-dark)"
+    required: false
+    default: "pdf,pdf-dark,epub,sample,sample-dark"
 runs:
-  using: "docker"
-  image: "Dockerfile"
+  using: "composite"
+  steps:
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ inputs.php_version }}
+        extensions: gd, zip, mbstring, intl
+        coverage: none
+    
+    - name: Cache Composer packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.composer
+        key: ${{ runner.os }}-composer-ibis-v2.0
+        restore-keys: |
+          ${{ runner.os }}-composer-ibis-
+    
+    - name: Install Ibis Next
+      shell: bash
+      run: composer global require hi-folks/ibis-next:^2.0 --optimize-autoloader
+    
+    - name: Build eBooks with Ibis Next
+      shell: bash
+      env:
+        IBIS_PATH: ${{ inputs.ibis_path }}
+        IBIS_BRANCH: ${{ inputs.ibis_branch }}
+        EMAIL: ${{ inputs.email }}
+        COMMIT_MESSAGE: ${{ inputs.commit_message }}
+        SKIP_PUSH: ${{ inputs.skip_push }}
+        FORMATS: ${{ inputs.formats }}
+      run: ${{ github.action_path }}/entrypoint.sh
 outputs:
-  build:
-    description: "Ibis Next build completed"
+  build_status:
+    description: "Ibis Next build status"
+    value: "completed"
 branding:
   icon: "git-merge"
   color: "purple"
