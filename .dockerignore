@@ -1,0 +1,13 @@
+# Ignore unnecessary files to reduce build context
+.git
+.github
+*.md
+README*
+LICENSE*
+.gitignore
+.dockerignore
+ebook/
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
